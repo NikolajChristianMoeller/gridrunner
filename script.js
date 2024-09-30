@@ -8,10 +8,33 @@ window.addEventListener("load", start);
 // #region controller
 
 function start() {
-  console.log(`Javascript kører`);
+  console.log(`JavaScript kører`);
+
+  document.addEventListener("keydown", keyDown);
 
   // start ticking
   tick();
+}
+
+function keyDown(event) {
+  console.log(event);
+  switch (event.key) {
+    case "ArrowLeft":
+    case "a":
+      direction = "left";
+      break;
+    case "ArrowRight":
+    case "d":
+      direction = "right";
+      break;
+    case "ArrowUp":
+    case "w":
+      direction = "up";
+      break;
+    case "ArrowDown":
+    case "s":
+      direction = "down";
+  }
 }
 
 function tick() {
@@ -19,26 +42,57 @@ function tick() {
   setTimeout(tick, 500);
 
   // TODO: Do stuff
-  writeToCell(player.row, player.col, 0);
+  //writeToCell(player.row, player.col, 0);
+
+  for (const part of queue) {
+    writeToCell(part.row, part.col, 0);
+  }
+
+  // const newHead = {
+  //   row: queue[queue.length-1].row,
+  //   col: queue[queue.length-1].col
+  // }
 
   //player.col--;
 
+  const head = {
+    row: queue[queue.length - 1].row,
+    col: queue[queue.length - 1].col,
+  };
+
   switch (direction) {
     case "left":
-      player.col--;
-      if (player.col < 0) {
-        player.col = 9;
+      head.col--;
+      if (head.col < 0) {
+        head.col = 9;
       }
       break;
     case "right":
-      player.col++;
-      if (player.col > 9) {
-        player.col = 0;
+      head.col++;
+      if (head.col > 9) {
+        head.col = 0;
       }
       break;
+    case "up":
+      head.row--;
+      if (head.row < 0) {
+        head.row = 9;
+      }
+      break;
+    case "down":
+      head.row++;
+      if (head.row > 9) {
+        head.row = 0;
+      }
   }
 
-  writeToCell(player.row, player.col, 1);
+  queue.push(head);
+
+  for (const part of queue) {
+    writeToCell(part.row, part.col, 1);
+  }
+
+  // writeToCell(player.row, player.col, 1);
 
   // display the model in full
   displayBoard();
@@ -77,6 +131,21 @@ const player = {
   row: 5,
   col: 5,
 };
+
+const queue = [
+  {
+    row: 5,
+    col: 5,
+  },
+  {
+    row: 5,
+    col: 6,
+  },
+  {
+    row: 5,
+    col: 7,
+  }, // her er enden af køen - der kommer nye elementer ind
+];
 
 // #endregion model
 
