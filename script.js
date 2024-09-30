@@ -60,6 +60,7 @@ function tick() {
     col: queue[queue.length - 1].col,
   };
 
+
   switch (direction) {
     case "left":
       head.col--;
@@ -87,6 +88,7 @@ function tick() {
   }
 
   queue.push(head);
+  queue.shift();
 
   for (const part of queue) {
     writeToCell(part.row, part.col, 1);
@@ -135,7 +137,7 @@ const player = {
 const queue = [
   {
     row: 5,
-    col: 5,
+    col: 7,
   },
   {
     row: 5,
@@ -143,7 +145,7 @@ const queue = [
   },
   {
     row: 5,
-    col: 7,
+    col: 5,
   }, // her er enden af køen - der kommer nye elementer ind
 ];
 
