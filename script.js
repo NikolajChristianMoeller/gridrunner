@@ -1,5 +1,7 @@
 "use strict";
 
+import queue from "./queue.js";
+
 // Note to self: Shift + option + f = prettier formater
 
 window.addEventListener("load", start);
@@ -14,6 +16,7 @@ function start() {
 
   // start ticking
   tick();
+  queue();
 }
 
 function keyDown(event) {
